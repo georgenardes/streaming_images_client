@@ -15,6 +15,7 @@ namespace streaming_images_client
 {
     public partial class Form1 : Form
     {
+        // V1 
         const int dataArraySize = 50000;
         const int streamBufferSize = 50000;        
 
