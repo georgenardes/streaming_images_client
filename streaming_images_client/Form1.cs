@@ -56,26 +56,9 @@ namespace streaming_images_client
 
         static void ReceiveData(Stream netStream, Stream bufStream)
         {
-            int qtdBytesLidos = 0;
-            byte[] receivedData = new byte[dataArraySize];
+            /* cria a imagem */
+            Bitmap bitmap = new Bitmap(bufStream);
 
-            // Receive data using the BufferedStream.
-            Console.WriteLine("Receiving data using BufferedStream.");
-
-            int numBytesToRead = receivedData.Length;
-            while (numBytesToRead > 0)
-            {
-                // Read may return anything from 0 to numBytesToRead.
-                int n = bufStream.Read(receivedData, 0, receivedData.Length);
-
-                // The end of the file is reached.
-                if (n == 0)
-                    break;
-
-                qtdBytesLidos += n;
-                numBytesToRead -= n;
-
-            }
 
             /* escreve os bytes recebidos do stream
             * apenas para verificar o conteúdo.  
@@ -85,12 +68,11 @@ namespace streaming_images_client
             salvarArquivo.DefaultExt = "jpg";
             if (salvarArquivo.ShowDialog() == DialogResult.OK && salvarArquivo.FileName.Length > 0)
             {
-                File.WriteAllBytes(salvarArquivo.FileName, receivedData);
-                MessageBox.Show("Arquivo 2 criado!");
+                bitmap.Save(salvarArquivo.FileName);
+                MessageBox.Show("Bitmap salvo!");
             }
-
-            /* mostra a imagem */
-            Bitmap bitmap = new Bitmap(new MemoryStream(receivedData));
+            
+            /* cria a imagem */
             pbObject.Image = bitmap;
         }
 
